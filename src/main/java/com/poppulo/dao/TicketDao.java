@@ -11,9 +11,7 @@ public interface TicketDao {
 
     public Ticket get(UUID id);
 
-    public Ticket check(UUID id);
+    public Ticket create(Ticket ticket);
 
-    public Ticket create(Ticket ticketDTO);
-
-    public Ticket update(Ticket ticketDTO);
+    public Ticket update(Ticket ticket);
 }

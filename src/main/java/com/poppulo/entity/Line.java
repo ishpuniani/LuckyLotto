@@ -1,7 +1,11 @@
 package com.poppulo.entity;
 
+import com.poppulo.exception.LineException;
+import com.poppulo.utils.LineUtils;
+
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Line {
     private String id;
@@ -10,7 +14,8 @@ public class Line {
     private Date createdAt;
     private Date updatedAt;
 
-    public Line() {}
+    public Line() {
+    }
 
     public String getId() {
         return id;
@@ -29,14 +34,14 @@ public class Line {
     }
 
     public Float getScore() {
-        if(score == null) {
+        if (score == null) {
             this.computeScore();
         }
         return score;
     }
 
-    public void computeScore() {
-        // Function to compute line score
+    public void setScore(Float score) {
+        this.score = score;
     }
 
     public Date getCreatedAt() {
@@ -53,6 +58,42 @@ public class Line {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    /**
+     * Function to generate ID of the line.
+     */
+    public void generateId() {
+        if (this.elements == null) {
+            throw new LineException("Cannot generate Line ID, elements empty");
+        }
+        this.id = elements.stream().map(String::valueOf).collect(Collectors.joining());
+    }
+
+    /**
+     * Function to compute the score of a line.
+     */
+    public void computeScore() {
+        if (elements == null || elements.size() < LineUtils.getLineSize()) {
+            throw new LineException("Cannot compute line score. Invalid elements:: " + elements);
+        }
+
+        int n1 = Character.getNumericValue(elements.get(0));
+        int n2 = Character.getNumericValue(elements.get(1));
+        int n3 = Character.getNumericValue(elements.get(2));
+
+        int result;
+        if (n1 + n2 + n3 == 2) {
+            result = 10;
+        } else if (n1 == n2 && n2 == n3) {
+            result = 5;
+        } else if (n2 != n1 && n3 != n1) {
+            result = 1;
+        } else {
+            result = 0;
+        }
+
+        this.score = (float) result;
     }
 
     @Override

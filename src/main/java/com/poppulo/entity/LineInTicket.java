@@ -3,22 +3,12 @@ package com.poppulo.entity;
 import java.util.UUID;
 
 public class LineInTicket {
-    private UUID id;
     private String lineId;
     private UUID ticketId;
 
     public LineInTicket(String lineId, UUID ticketId) {
-        this.id = UUID.randomUUID();
         this.lineId = lineId;
         this.ticketId = ticketId;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getLineId() {
@@ -39,9 +29,8 @@ public class LineInTicket {
 
     @Override
     public String toString() {
-        return "LineInTicketDTO{" +
-                "id=" + id +
-                ", lineId='" + lineId + '\'' +
+        return "LineInTicket{" +
+                "lineId='" + lineId + '\'' +
                 ", ticketId=" + ticketId +
                 '}';
     }

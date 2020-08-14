@@ -1,10 +1,14 @@
 package com.poppulo.service;
 
 import com.poppulo.entity.Ticket;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service("TicketService")
+@Transactional
 public interface TicketService {
 
     public List<Ticket> getTickets();

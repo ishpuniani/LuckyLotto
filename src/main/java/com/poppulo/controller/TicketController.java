@@ -1,6 +1,7 @@
 package com.poppulo.controller;
 
 import com.poppulo.entity.Ticket;
+import com.poppulo.exception.TicketNotFoundException;
 import com.poppulo.service.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,13 +14,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/tickets", produces = "application/json; charset=UTF-8")
 public class TicketController {
-    private Logger logger = LoggerFactory.getLogger(TicketController.class);
+    private final Logger logger = LoggerFactory.getLogger(TicketController.class);
 
     @Resource
     private TicketService ticketService;
