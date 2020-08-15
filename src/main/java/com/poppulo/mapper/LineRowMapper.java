@@ -14,8 +14,8 @@ public class LineRowMapper implements RowMapper<Line> {
         line.setId(rs.getString("id"));
         line.setElements(LineUtils.getElementsFromResultSet(rs));
         line.setScore(rs.getFloat("score"));
-        line.setCreatedAt(rs.getDate("created_at"));
-        line.setUpdatedAt(rs.getDate("updated_at"));
+        line.setCreatedAt(rs.getTimestamp("created_at"));
+        line.setUpdatedAt(rs.getTimestamp("updated_at"));
         return line;
     }
 }

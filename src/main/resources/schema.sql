@@ -16,10 +16,9 @@ create table lines
     updated_at timestamp
 );
 
--- TODO: have id in table because a ticket can have duplicate lines
 create table lines_in_tickets
 (
-    id        text primary key,
+    id        uuid primary key,
     line_id   text not null,
     ticket_id uuid not null,
     CONSTRAINT fk_lines

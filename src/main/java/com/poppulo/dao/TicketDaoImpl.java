@@ -29,7 +29,7 @@ public class TicketDaoImpl implements TicketDao {
      *
      * @return list of ticket objects
      */
-    public List<Ticket> getTickets() {
+    public List<Ticket> getAll() {
         String query = "select * from tickets";
         return template.query(query, new TicketRowMapper());
         //TODO: Efficient query, use joins and custom mapper
@@ -41,6 +41,19 @@ public class TicketDaoImpl implements TicketDao {
      * @param ticketId uuid of the ticket
      * @return ticket object by id
      */
+    /*public Ticket get(UUID ticketId) {
+        String query = "select * from tickets where id=:id";
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("id", ticketId);
+
+        List<Ticket> tickets = template.query(query, param, new TicketRowMapper());
+        if (tickets.size() == 0) {
+            throw new TicketException("Unable to find ticket: " + ticketId);
+        }
+
+        return tickets.get(0);
+    }*/
+
     public Ticket get(UUID ticketId) {
         String query = "select * from tickets where id=:id";
         SqlParameterSource param = new MapSqlParameterSource()
@@ -60,12 +73,18 @@ public class TicketDaoImpl implements TicketDao {
      * @param ticket ticket to be created.
      * @return saved ticket in the database.
      */
-    public Ticket create(Ticket ticket) {
-        String query = "insert into tickets(id, checked, total_score, created_at, updated_at) " +
-                "values(:id,:checked, :totalScore, :createdAt,:updatedAt)";
+    public Ticket save(Ticket ticket) {
 
-        ticket.setId(UUID.randomUUID());
-        ticket.setCreatedAt(new Date(System.currentTimeMillis()));
+        String query = "insert into tickets(id, checked, total_score, created_at, updated_at) " +
+                "values(:id,:checked, :totalScore, :createdAt,:updatedAt) " +
+                "ON CONFLICT (id) do update set " +
+                "checked=:checked, total_score=:totalScore, updated_at=:updatedAt";
+
+        if(ticket.getId() == null) {
+            //New object
+            ticket.setId(UUID.randomUUID());
+            ticket.setCreatedAt(new Date(System.currentTimeMillis()));
+        }
         ticket.setUpdatedAt(new Date(System.currentTimeMillis()));
 
         KeyHolder holder = new GeneratedKeyHolder();
@@ -76,35 +95,11 @@ public class TicketDaoImpl implements TicketDao {
                 .addValue("createdAt", ticket.getCreatedAt())
                 .addValue("updatedAt", ticket.getUpdatedAt());
 
-        int createdRows = template.update(query, param, holder);
-        if (createdRows == 0) {
-            throw new TicketException("Unable to create ticket: " + ticket);
+        int changedRows = template.update(query, param, holder);
+        if (changedRows == 0) {
+            throw new TicketException("Unable to save ticket: " + ticket);
         }
 
-        return ticket;
-    }
-
-    /**
-     * Function to update ticket object in database
-     *
-     * @param ticket
-     * @return
-     */
-    public Ticket update(Ticket ticket) {
-        String query = "update tickets set checked=:checked, total_score=:totalScore, updated_at=:updatedAt where id=:id";
-        ticket.setUpdatedAt(new Date(System.currentTimeMillis()));
-
-        KeyHolder holder = new GeneratedKeyHolder();
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("checked", ticket.isChecked())
-                .addValue("totalScore", ticket.getTotalScore())
-                .addValue("updatedAt", ticket.getUpdatedAt())
-                .addValue("id", ticket.getId());
-
-        int updateCount = template.update(query, param, holder);
-        if (updateCount != 1) {
-            throw new TicketException("Unable to update ticket: " + ticket);
-        }
         return ticket;
     }
 }

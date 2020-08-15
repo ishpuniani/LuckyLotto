@@ -1,7 +1,6 @@
 package com.poppulo.controller;
 
 import com.poppulo.entity.Ticket;
-import com.poppulo.exception.TicketNotFoundException;
 import com.poppulo.service.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -15,8 +15,8 @@ public class TicketRowMapper implements RowMapper<Ticket> {
         ticket.setId(UUID.fromString(rs.getString("id")));
         ticket.setChecked(rs.getBoolean("checked"));
         ticket.setTotalScore(rs.getFloat("total_score"));
-        ticket.setCreatedAt(rs.getDate("created_at"));
-        ticket.setUpdatedAt(rs.getDate("updated_at"));
+        ticket.setCreatedAt(rs.getTimestamp("created_at"));
+        ticket.setUpdatedAt(rs.getTimestamp("updated_at"));
 
         return ticket;
     }

@@ -1,7 +1,7 @@
 package com.poppulo.dao;
 
 import com.poppulo.entity.Line;
-import com.poppulo.mapper.LineElementRowMapper;
+import com.poppulo.exception.LineException;
 import com.poppulo.mapper.LineRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,24 +26,19 @@ public class LineDaoImpl implements LineDao {
     private NamedParameterJdbcTemplate template;
 
     @Override
-    public List<Line> getLinesInTicket(UUID ticketId, boolean withScore) {
+    public List<Line> getLinesInTicket(UUID ticketId) {
         String query = "";
         List<Line> lines;
-        if(withScore) {
-            query = "select * from lines " +
-                    "where id in (select line_id from lines_in_tickets where ticket_id=:ticketId)";
-        } else {
-            query = "select elements from lines " +
-                    "where id in (select line_id from lines_in_tickets where ticket_id=:ticketId)";
-        }
+
+        query = "select lines.id, elements, score, created_at, updated_at from lines " +
+                "join lines_in_tickets lit on lines.id = lit.line_id " +
+                "where ticket_id=:ticketId " +
+                "order by score desc";
+
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("ticketId", ticketId);
 
-        if(withScore) {
-            lines = template.query(query, param, new LineRowMapper());
-        } else {
-            lines = template.query(query, param, new LineElementRowMapper());
-        }
+        lines = template.query(query, param, new LineRowMapper());
 
         logger.info("Retrieved " + lines.size() + " lines for " + ticketId);
         return lines;
@@ -51,6 +46,10 @@ public class LineDaoImpl implements LineDao {
 
     @Override
     public void save(List<Line> lines) {
+        if(lines == null || lines.size() == 0) {
+            throw new LineException("No lines to save");
+        }
+
         String query = "insert into lines(id, elements, score, created_at, updated_at) " +
                 "values(:id, array [:elements ], :score, :createdAt, :updatedAt) " +
                 "ON CONFLICT(id) DO UPDATE set score=:score, updated_at=:updatedAt";

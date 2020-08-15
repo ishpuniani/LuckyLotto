@@ -27,13 +27,19 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<Ticket> getTickets() {
-        return ticketDao.getTickets();
+        List<Ticket> tickets = ticketDao.getAll();
+        for(Ticket ticket : tickets) {
+            List<Line> lines = lineDao.getLinesInTicket(ticket.getId());
+            ticket.setLines(lines);
+        }
+
+        return tickets;
     }
 
     @Override
     public Ticket get(UUID ticketId) {
         Ticket ticket = ticketDao.get(ticketId);
-        List<Line> lines = lineDao.getLinesInTicket(ticketId, false);
+        List<Line> lines = lineDao.getLinesInTicket(ticketId);
         ticket.setLines(lines);
 
         return ticket;
@@ -46,7 +52,7 @@ public class TicketServiceImpl implements TicketService {
         lineDao.save(lines);
 
         ticket.setLines(lines);
-        ticket = ticketDao.create(ticket);
+        ticket = ticketDao.save(ticket);
 
         lineInTicketDao.save(LineUtils.getLineMapping(ticket.getId(), lines));
         return get(ticket.getId());
@@ -69,13 +75,16 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket checkStatus(UUID id) {
-        Ticket ticket = ticketDao.get(id);
+    public Ticket checkStatus(UUID ticketId) {
+        Ticket ticket = ticketDao.get(ticketId);
+        List<Line> lines = lineDao.getLinesInTicket(ticketId);
+        ticket.setLines(lines);
         if (ticket.isChecked()) {
             return ticket;
         }
+
         ticket.computeTotalScore();
         ticket.setChecked(true);
-        return ticketDao.update(ticket);
+        return ticketDao.save(ticket);
     }
 }

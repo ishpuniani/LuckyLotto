@@ -7,11 +7,9 @@ import java.util.UUID;
 
 public interface TicketDao {
 
-    public List<Ticket> getTickets();
+    public List<Ticket> getAll();
 
     public Ticket get(UUID id);
 
-    public Ticket create(Ticket ticket);
-
-    public Ticket update(Ticket ticket);
+    public Ticket save(Ticket ticket);
 }
