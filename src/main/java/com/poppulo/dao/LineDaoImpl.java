@@ -2,6 +2,7 @@ package com.poppulo.dao;
 
 import com.poppulo.entity.Line;
 import com.poppulo.exception.LineException;
+import com.poppulo.mapper.LineElementRowMapper;
 import com.poppulo.mapper.LineRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,8 @@ public class LineDaoImpl implements LineDao {
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("ticketId", ticketId);
 
-        lines = template.query(query, param, new LineRowMapper());
+//        lines = template.query(query, param, new LineRowMapper());
+        lines = template.query(query, param, new LineElementRowMapper());
 
         logger.info("Retrieved " + lines.size() + " lines for " + ticketId);
         return lines;

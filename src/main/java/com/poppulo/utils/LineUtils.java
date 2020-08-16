@@ -73,11 +73,11 @@ public class LineUtils {
         return lineInTickets;
     }
 
-    public static List<Character> getElementsFromResultSet(ResultSet rs) throws SQLException {
-        String [] elementArr = (String[]) rs.getArray("elements").getArray();
+    public static List<Character> charListFromArray(Object[] elementArr) {
+//        String [] elementArr = (String[]) rs.getArray("elements").getArray();
         List<Character> elements = new ArrayList<Character>();
-        for(String s: elementArr) {
-            char c = s.charAt(0);
+        for(Object s: elementArr) {
+            char c = ((String) s).charAt(0);
             elements.add(c);
         }
         return elements;

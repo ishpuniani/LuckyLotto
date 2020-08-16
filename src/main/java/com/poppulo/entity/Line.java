@@ -1,5 +1,6 @@
 package com.poppulo.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.poppulo.exception.LineException;
 import com.poppulo.utils.LineUtils;
 
@@ -7,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Line {
     private String id;
     private List<Character> elements;
@@ -34,9 +36,6 @@ public class Line {
     }
 
     public Float getScore() {
-        if (score == null) {
-            this.computeScore();
-        }
         return score;
     }
 
@@ -98,7 +97,7 @@ public class Line {
 
     @Override
     public String toString() {
-        return "LineDTO{" +
+        return "Line{" +
                 "id='" + id + '\'' +
                 ", elements=" + elements +
                 ", score=" + score +

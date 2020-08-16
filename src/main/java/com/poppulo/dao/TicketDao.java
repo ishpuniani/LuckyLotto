@@ -9,7 +9,7 @@ public interface TicketDao {
 
     public List<Ticket> getAll();
 
-    public Ticket get(UUID id);
+    public Ticket get(UUID id, boolean withScore);
 
     public Ticket save(Ticket ticket);
 }

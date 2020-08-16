@@ -11,8 +11,10 @@ public class LineElementRowMapper implements RowMapper<Line> {
     @Override
     public Line mapRow(ResultSet rs, int rowNum) throws SQLException {
         Line line = new Line();
-        line.setScore(-1F);
-        line.setElements(LineUtils.getElementsFromResultSet(rs));
+//        line.setScore(-1F);
+//        line.setScore(null);
+        String [] elementArr = (String[]) rs.getArray("elements").getArray();
+        line.setElements(LineUtils.charListFromArray(elementArr));
         return line;
     }
 }

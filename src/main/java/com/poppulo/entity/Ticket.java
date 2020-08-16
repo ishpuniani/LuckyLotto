@@ -1,10 +1,13 @@
 package com.poppulo.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Ticket {
     private UUID id;
     private List<Line> lines;
@@ -76,9 +79,9 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "TicketDTO{" +
+        return "Ticket{" +
                 "id=" + id +
-                ", lineList=" + lines +
+                ", lines=" + lines +
                 ", totalScore=" + totalScore +
                 ", checked=" + checked +
                 ", createdAt=" + createdAt +
