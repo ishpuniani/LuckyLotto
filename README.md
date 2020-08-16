@@ -51,4 +51,4 @@ To run tests:
 ```
 
 ### APIs
-The API information(request/response) can be found here: [API Doc](doc/API.md). 
+The API information(request/response format) can be found here: [API Doc](doc/API.md). 

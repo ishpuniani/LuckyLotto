@@ -1,6 +1,6 @@
 # APIs
 
-## Create Tickets
+## Create Ticket
 #### Request: POST /tickets
 ```shell script
 curl --location --request POST 'localhost:8080/tickets' \
