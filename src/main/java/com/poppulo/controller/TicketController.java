@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +26,7 @@ public class TicketController {
 
     @GetMapping
     public List<Ticket> getTickets() {
-        return ticketService.getTickets();
+        return ticketService.getAll();
     }
 
     @GetMapping("/{id}")

@@ -11,7 +11,7 @@ import java.util.UUID;
 @Transactional
 public interface TicketService {
 
-    public List<Ticket> getTickets();
+    public List<Ticket> getAll();
 
     public Ticket get(UUID id);
 

@@ -26,7 +26,7 @@ public class LineInTicketDaoImpl implements LineInTicketDao{
     /**
      * Function to save ticket-line mapping in the database.
      *
-     * @param lineInTickets the rows to be saved.
+     * @param lineInTickets the object to be saved.
      */
     @Override
     public void save(List<LineInTicket> lineInTickets) {

@@ -70,6 +70,9 @@ public class Ticket {
         this.updatedAt = updatedAt;
     }
 
+    /**
+     * Function to compute total score of a ticket.
+     */
     public void computeTotalScore() {
         this.totalScore = 0f;
         for(Line line : lines) {

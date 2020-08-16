@@ -26,6 +26,13 @@ public class LineDaoImpl implements LineDao {
 
     private NamedParameterJdbcTemplate template;
 
+    /**
+     * Method to get all the lines in a particular ticket by ticketId
+     * Joins the table lines_in_tickets along with lines to get corresponding data.
+     *
+     * @param ticketId ticketId for which the lines are supposed to be retrieved.
+     * @return
+     */
     @Override
     public List<Line> getLinesInTicket(UUID ticketId) {
         String query = "";
@@ -39,13 +46,16 @@ public class LineDaoImpl implements LineDao {
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("ticketId", ticketId);
 
-//        lines = template.query(query, param, new LineRowMapper());
-        lines = template.query(query, param, new LineElementRowMapper());
+        lines = template.query(query, param, new LineRowMapper());
 
         logger.info("Retrieved " + lines.size() + " lines for " + ticketId);
         return lines;
     }
 
+    /**
+     * Function to save lines object to the lines table
+     * @param lines object to be saved
+     */
     @Override
     public void save(List<Line> lines) {
         if(lines == null || lines.size() == 0) {

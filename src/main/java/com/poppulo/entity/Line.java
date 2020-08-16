@@ -61,6 +61,7 @@ public class Line {
 
     /**
      * Function to generate ID of the line.
+     * Currently, we are concatenating the elements to generate the key.
      */
     public void generateId() {
         if (this.elements == null) {

@@ -52,6 +52,13 @@ public class TicketDaoImpl implements TicketDao {
         return tickets;
     }
 
+    /**
+     * Function to get ticket objects from a complex query containing joins across the tables lines, tickets and lines_in_tickets
+     * @param rowSet results of the query
+     * @param withScore boolean flag to specify if the score of lines is required
+     * @return List of tickets with lines mapped appropriately.
+     * @throws SerialException
+     */
     private List<Ticket> getTicketsFromRowSet(SqlRowSet rowSet, boolean withScore) throws SerialException {
         List<Ticket> tickets = new ArrayList<Ticket>();
         Map<UUID, List<Line>> lineMap = new LinkedHashMap<>();
