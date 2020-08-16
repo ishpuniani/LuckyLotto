@@ -35,7 +35,9 @@ There are three tables and respective DAOs:
 The tests can be found in this [directory]().
 
 ### Architecture
+A high level architecture of the code execution:
 
+![Architecture Image](doc/arch.png)
 
 ### Running server
 To run the server: 
