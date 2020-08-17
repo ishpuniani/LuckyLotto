@@ -48,7 +48,11 @@ public class LineUtils {
         return lines;
     }
 
-    private static Line generateRandomLine() {
+    public static Line generateRandomLine() {
+        return generateRandomLine(lineValues, lineSize);
+    }
+
+    public static Line generateRandomLine(List<Character> lineValues, int lineSize) {
         Line line = new Line();
         List<Character> elements = new ArrayList<Character>();
         for (int i = 0; i < lineSize; i++) {
@@ -74,7 +78,6 @@ public class LineUtils {
     }
 
     public static List<Character> charListFromArray(Object[] elementArr) {
-//        String [] elementArr = (String[]) rs.getArray("elements").getArray();
         List<Character> elements = new ArrayList<Character>();
         for(Object s: elementArr) {
             char c = ((String) s).charAt(0);

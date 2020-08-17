@@ -1,5 +1,6 @@
 package com.poppulo.dao;
 
+import com.poppulo.TestUtils;
 import com.poppulo.entity.Line;
 import com.poppulo.entity.LineInTicket;
 import com.poppulo.entity.Ticket;
@@ -13,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,8 +51,7 @@ public class LineInTicketDaoTest {
     @Test
     public void testSaveAndGetAll() {
         Ticket ticket = ticketDao.save(new Ticket());
-
-        List<Line> lines = LineUtils.generateLines(3);
+        List<Line> lines = TestUtils.getTestLines();
         lineDao.save(lines);
 
         List<LineInTicket> lineInTickets = LineUtils.getLineMapping(ticket.getId(), lines);

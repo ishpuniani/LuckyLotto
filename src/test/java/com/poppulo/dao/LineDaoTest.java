@@ -1,5 +1,6 @@
 package com.poppulo.dao;
 
+import com.poppulo.TestUtils;
 import com.poppulo.dao.LineDao;
 import com.poppulo.entity.Line;
 import com.poppulo.utils.LineUtils;
@@ -12,6 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +31,7 @@ public class LineDaoTest {
     @Test
     public void testSave() {
         // Creating lines and saving to lines table
-        List<Line> lines = LineUtils.generateLines(3);
+        List<Line> lines = TestUtils.getTestLines();
         lines = lineDao.save(lines);
 
         // Getting all the lines from database
