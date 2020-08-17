@@ -36,9 +36,17 @@ public class TestUtils {
         return lines;
     }
 
+    public static Ticket getTestTicket() {
+        return getTestTicket(false);
+    }
+
     public static Ticket getTestTicket(boolean checked) {
+        return getTestTicket(checked, false);
+    }
+
+    public static Ticket getTestTicket(boolean checked, boolean randomId) {
         Ticket ticket = new Ticket();
-        ticket.setId(UUID.fromString(UUID_STR));
+        ticket.setId(randomId ? UUID.randomUUID() : UUID.fromString(UUID_STR));
         ticket.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         ticket.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         ticket.setLines(getTestLines());

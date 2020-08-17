@@ -10,7 +10,7 @@ public class TicketEntityTest {
 
     @Test
     public void testComputeTotalScore() {
-        Ticket ticket = TestUtils.getTestTicket(false);
+        Ticket ticket = TestUtils.getTestTicket();
         ticket.computeTotalScore();
         Assert.assertEquals(15, ticket.getTotalScore(), 0.0);
     }
