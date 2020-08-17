@@ -6,5 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface LineInTicketDao {
+    public List<LineInTicket> getAll();
+
     public void save(List<LineInTicket> lineInTickets);
 }

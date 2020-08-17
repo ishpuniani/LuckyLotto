@@ -27,6 +27,21 @@ public class LineDaoImpl implements LineDao {
     private NamedParameterJdbcTemplate template;
 
     /**
+     * Function to get all lines from DB. Used in tests.
+     * @return list of lines in DB
+     */
+    @Override
+    public List<Line> getAll() {
+        String query = "select * from lines";
+
+        SqlParameterSource param = new MapSqlParameterSource();
+        List<Line> lines = template.query(query, param, new LineRowMapper());
+
+        logger.info("Retrieved " + lines.size() + " lines" );
+        return lines;
+    }
+
+    /**
      * Method to get all the lines in a particular ticket by ticketId
      * Joins the table lines_in_tickets along with lines to get corresponding data.
      *
@@ -35,10 +50,9 @@ public class LineDaoImpl implements LineDao {
      */
     @Override
     public List<Line> getLinesInTicket(UUID ticketId) {
-        String query = "";
         List<Line> lines;
 
-        query = "select lines.id, elements, score, created_at, updated_at from lines " +
+        String query = "select lines.id, elements, score, created_at, updated_at from lines " +
                 "join lines_in_tickets lit on lines.id = lit.line_id " +
                 "where ticket_id=:ticketId " +
                 "order by score desc";
@@ -57,7 +71,7 @@ public class LineDaoImpl implements LineDao {
      * @param lines object to be saved
      */
     @Override
-    public void save(List<Line> lines) {
+    public List<Line> save(List<Line> lines) {
         if(lines == null || lines.size() == 0) {
             throw new LineException("No lines to save");
         }
@@ -87,5 +101,7 @@ public class LineDaoImpl implements LineDao {
 
         int[] createdRows = template.batchUpdate(query, params);
         logger.info("Saved lines:: " + lines.size());
+
+        return lines;
     }
 }

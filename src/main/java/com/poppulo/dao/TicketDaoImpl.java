@@ -37,8 +37,8 @@ public class TicketDaoImpl implements TicketDao {
      */
     public List<Ticket> getAll() {
         String query = "select t.id, l.id as line_id, l.elements, l.score, t.checked, t.total_score, t.created_at, t.updated_at from tickets t " +
-                "join lines_in_tickets lit on t.id = lit.ticket_id " +
-                "join lines l on lit.line_id = l.id " +
+                "left join lines_in_tickets lit on t.id = lit.ticket_id " +
+                "left join lines l on lit.line_id = l.id " +
                 "order by t.id, l.score desc";
 
         SqlRowSet rowSet = template.queryForRowSet(query, new MapSqlParameterSource());
@@ -97,9 +97,9 @@ public class TicketDaoImpl implements TicketDao {
      */
     public Ticket get(UUID ticketId, boolean withScore) {
         String query = "select t.id, l.id as line_id, l.elements, l.score, t.checked, t.total_score, t.created_at, t.updated_at from tickets t " +
-                "join lines_in_tickets lit on t.id = lit.ticket_id " +
-                "join lines l on lit.line_id = l.id " +
-                "where ticket_id=:id " +
+                "left join lines_in_tickets lit on t.id = lit.ticket_id " +
+                "left join lines l on lit.line_id = l.id " +
+                "where t.id=:id " +
                 "order by l.score desc;";
 
         SqlParameterSource param = new MapSqlParameterSource()

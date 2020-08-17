@@ -49,8 +49,10 @@ The server can be accessed at port 8080
 ### Running tests
 To run tests:
 ```shell script
-
+mvn test
 ```
+The tests are run on a separate DB called `test_lucky_lotto`.
+Tests follow a transactional pattern where a rollback is performed at the end of each test.
 
 ### APIs
 The API information(request/response format) can be found here: [API Doc](doc/API.md). 

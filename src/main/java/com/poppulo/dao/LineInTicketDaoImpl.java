@@ -2,26 +2,44 @@ package com.poppulo.dao;
 
 import com.poppulo.entity.Line;
 import com.poppulo.entity.LineInTicket;
-import com.poppulo.exception.LineException;
 import com.poppulo.exception.TicketException;
+import com.poppulo.mapper.LineInTicketRowMapper;
+import com.poppulo.mapper.LineRowMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.IntStream;
 
 @Repository
 public class LineInTicketDaoImpl implements LineInTicketDao{
+
+    private final Logger logger = LoggerFactory.getLogger(LineInTicketDaoImpl.class);
 
     public LineInTicketDaoImpl(NamedParameterJdbcTemplate template) {
         this.template = template;
     }
 
     private NamedParameterJdbcTemplate template;
+
+    /**
+     * Function to get all lines_in_tickets from DB. Used in tests.
+     * @return list of lines in DB
+     */
+    @Override
+    public List<LineInTicket> getAll() {
+        String query = "select * from lines_in_tickets";
+
+        SqlParameterSource param = new MapSqlParameterSource();
+        List<LineInTicket> lines = template.query(query, param, new LineInTicketRowMapper());
+
+        logger.info("Retrieved " + lines.size() + " lines in tickets");
+        return lines;
+    }
 
     /**
      * Function to save ticket-line mapping in the database.

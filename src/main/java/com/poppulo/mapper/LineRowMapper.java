@@ -15,11 +15,14 @@ public class LineRowMapper implements RowMapper<Line> {
     @Override
     public Line mapRow(ResultSet rs, int rowNum) throws SQLException {
         ResultSetWrappingSqlRowSet rowSet = new ResultSetWrappingSqlRowSet(rs);
-        return mapRowSet(rowSet, rowNum);
+        Line line = mapRowSet(rowSet, rowNum);
+        Object[] elementArr = (Object[]) rs.getArray("elements").getArray();
+        line.setElements(LineUtils.charListFromArray(elementArr));
+        return line;
     }
 
     public Line mapRowSet(SqlRowSet rs, int rowNum) throws SerialException {
-        Line line = mapJoinRowSet(rs, rowNum);
+        Line line = new Line();
         line.setId(rs.getString("id"));
         line.setCreatedAt(rs.getTimestamp("created_at"));
         line.setUpdatedAt(rs.getTimestamp("updated_at"));
@@ -28,8 +31,11 @@ public class LineRowMapper implements RowMapper<Line> {
 
     public Line mapJoinRowSet(SqlRowSet rs, int rowNum) throws SerialException {
         Line line = new Line();
-        Object[] elementArr = (Object[]) ((SerialArray)rs.getObject("elements")).getArray();
-        line.setElements(LineUtils.charListFromArray(elementArr));
+        Object elementsSql = rs.getObject("elements");
+        if(elementsSql != null) {
+            Object[] elementArr = (Object[]) ((SerialArray)elementsSql).getArray();
+            line.setElements(LineUtils.charListFromArray(elementArr));
+        }
         line.setScore(rs.getFloat("score"));
         return line;
     }
