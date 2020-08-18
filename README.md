@@ -54,5 +54,17 @@ mvn test
 The tests are run on a separate DB called `test_lucky_lotto`.
 Tests follow a transactional pattern where a rollback is performed at the end of each test.
 
+The tests can be found at
+* [TicketControllerTest](src/test/java/com/poppulo/TicketControllerTest.java):
+Unit tests for methods in [TicketController](src/main/java/com/poppulo/controller/TicketController.java)
+* [TicketServiceTest](src/test/java/com/poppulo/TicketServiceTest.java) :
+Unit tests for methods in [TicketService](src/main/java/com/poppulo/service/TicketService.java)
+* [DAO Tests](src/test/java/com/poppulo/dao) :
+Unit tests for methods in [DAOs](src/main/java/com/poppulo/dao)
+* [Entity Tests](src/test/java/com/poppulo/entity) :
+Unit tests for methods in [Entities](src/main/java/com/poppulo/entity)
+* [LineUtilsTest](src/test/java/com/poppulo/LineUtilsTest.java) : 
+Unit tests for methods in [LineUtils](src/main/java/com/poppulo/utils/LineUtils.java)
+
 ### APIs
 The API information(request/response format) can be found here: [API Doc](doc/API.md). 
