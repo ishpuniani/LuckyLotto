@@ -32,7 +32,7 @@ There are three tables and respective DAOs:
 * `lines` : contains the line information
 * `lines_in_tickets` : contains the mapping information, "lines in tickets".
 
-The tests can be found in this [directory]().
+The tests can be found in this [directory](src/test/java/com/poppulo).
 
 ### Architecture
 A high level architecture of the code execution:
